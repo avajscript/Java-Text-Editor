@@ -16,6 +16,9 @@ public class ReadOpenedFileCommand implements TextFileCommand {
 
     @Override
     public void execute() {
+        if (file == null) {
+            return;
+        }
         try (Scanner myReader = new Scanner(file)) {
             ArrayList<String> fileContents = new ArrayList<>();
 

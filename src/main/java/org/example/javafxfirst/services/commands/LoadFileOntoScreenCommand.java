@@ -19,6 +19,9 @@ public class LoadFileOntoScreenCommand implements TextFileCommand {
      */
     @Override
     public void execute() {
-        textContent.setText(String.join("\n", TextBuffer.getContent()));
+        if (TextBuffer.getContent() != null) {
+            textContent.setText(String.join("\n", TextBuffer.getContent()));
+        }
+
     }
 }

@@ -1,0 +1,126 @@
+{
+  "colorThemes": [
+    {
+      "themeName": "Default",
+      "fontColor": [
+        0,
+        0,
+        0
+      ],
+      "mainBackgroundColor": [
+        255,
+        255,
+        255
+      ],
+      "secondaryBackgroundColor": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "themeName": "Red Monochrome [White Text]",
+      "fontColor": [
+        264,
+        162,
+        172
+      ],
+      "mainBackgroundColor": [],
+      "secondaryBackgroundColor": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "themeName": "Red Monochrome [Red Text]",
+      "fontColor": [],
+      "mainBackgroundColor": [],
+      "secondaryBackgroundColor": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "themeName": "",
+      "fontColor": [],
+      "mainBackgroundColor": [],
+      "secondaryBackgroundColor": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "themeName": "",
+      "fontColor": [],
+      "mainBackgroundColor": [],
+      "secondaryBackgroundColor": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "themeName": "",
+      "fontColor": [],
+      "mainBackgroundColor": [],
+      "secondaryBackgroundColor": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "themeName": "",
+      "fontColor": [],
+      "mainBackgroundColor": [],
+      "secondaryBackgroundColor": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "themeName": "",
+      "fontColor": [],
+      "mainBackgroundColor": [],
+      "secondaryBackgroundColor": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "themeName": "",
+      "fontColor": [],
+      "mainBackgroundColor": [],
+      "secondaryBackgroundColor": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "themeName": "",
+      "fontColor": [],
+      "mainBackgroundColor": [],
+      "secondaryBackgroundColor": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "themeName": "",
+      "fontColor": [],
+      "mainBackgroundColor": [],
+      "secondaryBackgroundColor": [
+        0,
+        0,
+        0
+      ]
+    }
+  ]
+}

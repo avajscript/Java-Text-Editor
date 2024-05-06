@@ -1,7 +1,9 @@
 package org.example.javafxfirst.services;
+
 import java.util.ArrayList;
+
 public class TextBuffer {
-    private static ArrayList<String> content = new ArrayList<>();
+    private static ArrayList<String> content = null;
 
     public static ArrayList<String> getContent() {
         return content;

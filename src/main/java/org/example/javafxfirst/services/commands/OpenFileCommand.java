@@ -2,10 +2,8 @@ package org.example.javafxfirst.services.commands;
 
 import javafx.scene.Scene;
 import javafx.stage.FileChooser;
-import org.example.javafxfirst.globals.FileGlobals;
 import org.example.javafxfirst.services.TextFileHolder;
 
-import java.util.prefs.Preferences;
 import java.io.File;
 
 /**
@@ -33,7 +31,7 @@ public class OpenFileCommand implements TextFileCommand {
 
         fileChooser.setTitle("Open Text File");
         // load file chooser from last directory
-        fileChooser.setInitialDirectory(new File(FileGlobals.LAST_USED_FOLDER));
+        fileChooser.setInitialDirectory(new File(TextFileHolder.getLastUsedFolder()));
         File file = fileChooser.showOpenDialog(scene.getWindow());
 
         // load file into buffer
@@ -41,7 +39,7 @@ public class OpenFileCommand implements TextFileCommand {
         if (file != null) {
             TextFileHolder.setCurrentFile(file);
             // set file chooser to directory where file is in
-            FileGlobals.LAST_USED_FOLDER = file.getParent();
+            TextFileHolder.setLastUsedFolder(file.getParent());
 
             // Write the file to text buffer (stores array of text of the file)
         }
