@@ -12,8 +12,10 @@ public class SaveCommand implements TextFileCommand {
     public SaveCommand(String fileToWriteTo) {
         this.fileToWriteTo = fileToWriteTo;
     }
+
     @Override
-    public void execute() {
+    public boolean execute() {
+        boolean fileState = true;
         try (Writer fileWriter = new FileWriter(fileToWriteTo);) {
             // clear the file
             fileWriter.write("");
@@ -24,6 +26,7 @@ public class SaveCommand implements TextFileCommand {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+        return fileState;
 
     }
 }

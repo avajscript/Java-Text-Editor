@@ -33,11 +33,15 @@ public class AppProperties {
         // add property to end of property list. Delete first element if list is full
         String newProperties = "";
         String[] propertyArrayString = propertyValue.split(",");
+        int propertyArrayLength = propertyArrayString.length;
+
         if (propertyArrayString.length >= maxLength) {
-            for (int i = 0; i < propertyArrayString.length - 1; i++) {
-                newProperties += ", " + propertyArrayString[i];
-            }
+            propertyArrayLength--;
         }
+        for (int i = 0; i < propertyArrayLength; i++) {
+            newProperties += "," + propertyArrayString[i];
+        }
+
         // add new property value to start of property "array" (string)
         newProperties = value + newProperties;
 
@@ -79,5 +83,19 @@ public class AppProperties {
             throw new RuntimeException(e);
         }
         return returnProperty;
+    }
+
+    public String[] getPropertyAsArray(String property) {
+        String[] propertyArray;
+        String propertyRes = getProperty(property);
+
+        if (propertyRes == null) {
+            propertyArray = new String[]{};
+        } else {
+            propertyArray = propertyRes.split(",");
+        }
+
+
+        return propertyArray;
     }
 }

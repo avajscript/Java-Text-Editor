@@ -21,7 +21,7 @@ public class OpenFileCommand implements TextFileCommand {
      * Open file dialog, user selects file, updates the current file and loads it
      */
     @Override
-    public void execute() {
+    public boolean execute() {
 
         FileChooser fileChooser = new FileChooser();
 
@@ -41,8 +41,9 @@ public class OpenFileCommand implements TextFileCommand {
             // set file chooser to directory where file is in
             TextFileHolder.setLastUsedFolder(file.getParent());
 
-            // Write the file to text buffer (stores array of text of the file)
+            return true;
         }
+        return false;
     }
 
 }

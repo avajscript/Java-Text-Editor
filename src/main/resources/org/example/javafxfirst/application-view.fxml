@@ -18,9 +18,9 @@
         <menus>
             <Menu mnemonicParsing="false" text="File">
                 <items>
-                    <MenuItem mnemonicParsing="false" onAction="#onNewMenuItemClicked" text="New " />
-                    <MenuItem mnemonicParsing="false" onAction="#onOpenMenuItemClicked" text="Open..." />
-                    <Menu fx:id="openRecent" mnemonicParsing="false" onAction="#onOpenRecentMenuItemClicked" text="Open Recent" />
+                    <MenuItem fx:id="newMenuItem" mnemonicParsing="false" onAction="#onNewMenuItemClicked" text="New " />
+                    <MenuItem fx:id="openMenuItem" mnemonicParsing="false" onAction="#onOpenMenuItemClicked" text="Open..." />
+                    <Menu fx:id="openRecentMenu" mnemonicParsing="false" onAction="#onOpenRecentMenuItemClicked" text="Open Recent" />
                     <SeparatorMenuItem mnemonicParsing="false" />
                     <MenuItem fx:id="saveMenuItem" mnemonicParsing="false" onAction="#onSaveMenuItemClicked" text="Save" />
                     <MenuItem fx:id="saveAsMenuItem" mnemonicParsing="false" onAction="#onSaveAsMenuItemClicked" text="Save as..." />
@@ -31,18 +31,18 @@
 
             <Menu mnemonicParsing="false" text="Edit">
                 <items>
-               <MenuItem fx:id="undoMenuItem" mnemonicParsing="false" onAction="#onUndoMenuItemClicked" text="Undo" />
-               <MenuItem fx:id="redoMenuItem" mnemonicParsing="false" onAction="#onRedoMenuItemClicked" text="Redo" />
-               <SeparatorMenuItem mnemonicParsing="false" />
-               <MenuItem fx:id="cutMenuItem" mnemonicParsing="false" onAction="#onCutMenuItemClicked" text="Cut" />
-               <MenuItem fx:id="copyMenuItem" mnemonicParsing="false" onAction="#onCopyMenuItemClicked" text="Copy" />
-               <MenuItem fx:id="pasteMenuItem" mnemonicParsing="false" onAction="#onPasteMenuItemClicked" text="Paste" />
+                    <MenuItem fx:id="undoMenuItem" mnemonicParsing="false" onAction="#onUndoMenuItemClicked" text="Undo" />
+                    <MenuItem fx:id="redoMenuItem" mnemonicParsing="false" onAction="#onRedoMenuItemClicked" text="Redo" />
+                    <SeparatorMenuItem mnemonicParsing="false" />
+                    <MenuItem fx:id="cutMenuItem" mnemonicParsing="false" onAction="#onCutMenuItemClicked" text="Cut" />
+                    <MenuItem fx:id="copyMenuItem" mnemonicParsing="false" onAction="#onCopyMenuItemClicked" text="Copy" />
+                    <MenuItem fx:id="pasteMenuItem" mnemonicParsing="false" onAction="#onPasteMenuItemClicked" text="Paste" />
                     <MenuItem fx:id="deleteMenuItem" mnemonicParsing="false" onAction="#onDeleteMenuItemClicked" text="Delete" />
-               <SeparatorMenuItem mnemonicParsing="false" />
-               <MenuItem fx:id="findMenuItem" mnemonicParsing="false" onAction="#onFindMenuItemClicked" text="Find..." />
-               <MenuItem fx:id="findAndReplaceMenuItem" mnemonicParsing="false" onAction="#onFindAndReplaceMenuItemClicked" text="Find and Replace..." />
-               <SeparatorMenuItem mnemonicParsing="false" />
-               <Menu fx:id="colorThemesMenu" mnemonicParsing="false" text="Color Themes" />
+                    <SeparatorMenuItem mnemonicParsing="false" />
+                    <MenuItem fx:id="findMenuItem" mnemonicParsing="false" onAction="#onFindMenuItemClicked" text="Find..." />
+                    <MenuItem fx:id="findAndReplaceMenuItem" mnemonicParsing="false" onAction="#onFindAndReplaceMenuItemClicked" text="Find and Replace..." />
+                    <SeparatorMenuItem mnemonicParsing="false" />
+                    <Menu fx:id="colorThemesMenu" mnemonicParsing="false" text="Color Themes" />
                 </items>
             </Menu>
             <Menu mnemonicParsing="false" text="Help">

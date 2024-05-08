@@ -15,9 +15,9 @@ public class ReadOpenedFileCommand implements TextFileCommand {
 
 
     @Override
-    public void execute() {
+    public boolean execute() {
         if (file == null) {
-            return;
+            return false;
         }
         try (Scanner myReader = new Scanner(file)) {
             ArrayList<String> fileContents = new ArrayList<>();
@@ -29,6 +29,7 @@ public class ReadOpenedFileCommand implements TextFileCommand {
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);
         }
+        return true;
     }
 }
 

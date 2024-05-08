@@ -18,17 +18,19 @@ public class ReadFileCommand implements TextFileCommand {
 
 
     @Override
-    public void execute() {
+    public boolean execute() {
         File readFile = new File(fileToRead);
         try (Scanner myReader = new Scanner(readFile)) {
             ArrayList<String> fileContents = new ArrayList<>();
-
+            System.out.println(myReader);
             while (myReader.hasNext()) {
                 fileContents.add(myReader.nextLine());
             }
             TextBuffer.setContent(fileContents);
         } catch (FileNotFoundException e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
+            return false;
         }
+        return true;
     }
 }

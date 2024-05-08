@@ -21,6 +21,10 @@ public class WindowUpdater {
         stage.setTitle(title);
     }
 
+    public void deleteRecentMenuItems(Menu menu) {
+        menu.getItems().clear();
+    }
+
     public void renderRecentMenu(Menu menu, String[] filePaths) {
         for (String filePath : filePaths) {
             // get the file name from file path. Eg. myfile.txt

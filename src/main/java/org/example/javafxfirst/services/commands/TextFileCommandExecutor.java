@@ -2,7 +2,7 @@ package org.example.javafxfirst.services.commands;
 
 public class TextFileCommandExecutor {
 
-    public void executeOperation(TextFileCommand textFileCommand) {
-        textFileCommand.execute();
+    public boolean executeOperation(TextFileCommand textFileCommand) {
+        return textFileCommand.execute();
     }
 }

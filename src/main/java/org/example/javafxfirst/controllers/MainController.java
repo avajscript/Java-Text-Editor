@@ -1,13 +1,17 @@
 package org.example.javafxfirst.controllers;
 
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextArea;
+import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 import org.example.javafxfirst.HelloApplication;
 import org.example.javafxfirst.constants.AppProperties;
+import org.example.javafxfirst.constants.Constants;
 import org.example.javafxfirst.services.TextBuffer;
 import org.example.javafxfirst.services.TextFileHolder;
 import org.example.javafxfirst.services.WindowUpdater;
@@ -18,10 +22,13 @@ import java.util.Arrays;
 
 public class MainController {
     TextFileCommandExecutor textFileCommandExecutor = new TextFileCommandExecutor();
-
     Stage stage = HelloApplication.getStage();
     WindowUpdater windowUpdater = new WindowUpdater(stage);
     AppProperties appProperties = new AppProperties();
+
+    @FXML
+    protected TextArea textContent;
+
     // menu items
     @FXML
     protected MenuItem newMenuItem;
@@ -29,7 +36,7 @@ public class MainController {
     @FXML
     protected MenuItem openMenuItem;
     @FXML
-    protected MenuItem openRecentMenuItem;
+    protected Menu openRecentMenu;
     @FXML
     protected MenuItem saveMenuitem;
     @FXML
@@ -57,9 +64,6 @@ public class MainController {
     @FXML
     protected Menu colorThemesMenu;
 
-    @FXML
-    protected TextArea textContent;
-
     // icons
     @FXML
     protected Button saveIcon;
@@ -80,6 +84,33 @@ public class MainController {
     @FXML
     protected Button searchicon;
 
+    // runs when the Controller is initialized
+    @FXML
+    private void initialize() {
+        appProperties.checkFileExistsAndCreate();
+        windowUpdater.renderRecentMenu(openRecentMenu, appProperties.getPropertyAsArray("recentFiles"));
+        addKeyListener();
+    }
+
+    /**
+     * Listens to key events to run commands like copy/paste, etc
+     */
+    public void addKeyListener() {
+        textContent.setOnKeyPressed(new EventHandler<KeyEvent>() {
+            @Override
+            public void handle(KeyEvent keyEvent) {
+                System.out.println("key event?");
+                System.out.println(keyEvent.getCode());
+            }
+        });
+
+        textContent.setOnKeyReleased(new EventHandler<KeyEvent>() {
+            @Override
+            public void handle(KeyEvent keyEvent) {
+
+            }
+        });
+    }
 
     // Menu item click listeners
 
@@ -91,18 +122,29 @@ public class MainController {
     @FXML
     protected void onOpenMenuItemClicked() {
         // open file using FileChooser
-        textFileCommandExecutor.executeOperation(new OpenFileCommand(loadIcon.getScene()));
+        boolean commandState = textFileCommandExecutor.executeOperation(new OpenFileCommand(loadIcon.getScene()));
         // parse file contents into buffer
-        textFileCommandExecutor.executeOperation(new ReadOpenedFileCommand(TextFileHolder.getCurrentFile()));
-        // render buffer onto screen
-        textFileCommandExecutor.executeOperation(new LoadFileOntoScreenCommand(textContent));
-        // update window title with file name
-        windowUpdater.updateTitle(TextFileHolder.getCurrentFileName() + "    (" + TextFileHolder.getCurrentFilePath() + ")");
-        // add the file path to the properties
+        if (commandState) {
+            commandState = textFileCommandExecutor.executeOperation(new ReadOpenedFileCommand(TextFileHolder.getCurrentFile()));
+        }
+        if (commandState) {
+            // render buffer onto screen
+            commandState = textFileCommandExecutor.executeOperation(new LoadFileOntoScreenCommand(textContent));
+        }
+        if (commandState) {
+            // update window title with file name
+            windowUpdater.updateTitle(TextFileHolder.getCurrentFileName() + "    (" + TextFileHolder.getCurrentFilePath() + ")");
+            // add the file path to the properties
+            appProperties.updatePropertyArray("recentFiles", TextFileHolder.getCurrentFileName(), Constants.PROPERTY_RECENT_FILES_LENGTH);
+            windowUpdater.deleteRecentMenuItems(openRecentMenu);
+            windowUpdater.renderRecentMenu(openRecentMenu, appProperties.getPropertyAsArray("recentFiles"));
+
+        }
+
     }
 
     @FXML
-    protected void onRecentMenuItemClicked() {
+    protected void onOpenRecentMenuItemClicked() {
 
     }
 
@@ -130,26 +172,31 @@ public class MainController {
 
     @FXML
     protected void onUndoMenuItemClicked() {
-
+        textContent.undo();
     }
 
     @FXML
     protected void onRedoMenuItemClicked() {
-
+        textContent.redo();
     }
 
     @FXML
     protected void onCutMenuItemClicked() {
-
+        textFileCommandExecutor.executeOperation(new CutCommand(textContent));
     }
 
     @FXML
     protected void onCopyMenuItemClicked() {
-
+        textFileCommandExecutor.executeOperation(new CopyCommand(textContent));
     }
 
     @FXML
     protected void onPasteMenuItemClicked() {
+
+    }
+
+    @FXML
+    protected void onDeleteMenuItemClicked() {
 
     }
 

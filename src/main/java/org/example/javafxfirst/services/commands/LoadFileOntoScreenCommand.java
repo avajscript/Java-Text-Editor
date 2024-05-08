@@ -18,10 +18,12 @@ public class LoadFileOntoScreenCommand implements TextFileCommand {
      * Sets the text area on the screen to the loaded file contents
      */
     @Override
-    public void execute() {
+    public boolean execute() {
         if (TextBuffer.getContent() != null) {
             textContent.setText(String.join("\n", TextBuffer.getContent()));
+            return true;
         }
+        return false;
 
     }
 }
