@@ -2,12 +2,16 @@ package org.example.javafxfirst.controllers;
 
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextArea;
+import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.text.TextFlow;
 import javafx.stage.Stage;
 import org.example.javafxfirst.HelloApplication;
 import org.example.javafxfirst.constants.AppProperties;
@@ -16,7 +20,10 @@ import org.example.javafxfirst.services.TextBuffer;
 import org.example.javafxfirst.services.TextFileHolder;
 import org.example.javafxfirst.services.WindowUpdater;
 import org.example.javafxfirst.services.commands.*;
+import org.example.javafxfirst.services.state.KeyCommander;
+import org.example.javafxfirst.services.state.KeyCommanderState;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -26,8 +33,10 @@ public class MainController {
     WindowUpdater windowUpdater = new WindowUpdater(stage);
     AppProperties appProperties = new AppProperties();
 
+    KeyCommanderState keyCommanderState;
+
     @FXML
-    protected TextArea textContent;
+    protected TextFlow textContent;
 
     // menu items
     @FXML
@@ -89,7 +98,8 @@ public class MainController {
     private void initialize() {
         appProperties.checkFileExistsAndCreate();
         windowUpdater.renderRecentMenu(openRecentMenu, appProperties.getPropertyAsArray("recentFiles"));
-        addKeyListener();
+        //keyCommanderState = new KeyCommanderState(textContent);
+        //addKeyListener();
     }
 
     /**
@@ -99,15 +109,73 @@ public class MainController {
         textContent.setOnKeyPressed(new EventHandler<KeyEvent>() {
             @Override
             public void handle(KeyEvent keyEvent) {
-                System.out.println("key event?");
-                System.out.println(keyEvent.getCode());
+                KeyCode keyCode = keyEvent.getCode();
+                switch (keyCode) {
+                    case CONTROL:
+                        keyCommanderState.getCtrlKeyCommander().pressKey();
+                        keyCommanderState.setActiveKeyState(keyCommanderState.getCtrlKeyCommander());
+                        break;
+                    case ALT:
+                        keyCommanderState.getAltKeyCommander().pressKey();
+                        keyCommanderState.setActiveKeyState(keyCommanderState.getAltKeyCommander());
+                        break;
+                    case SHIFT:
+                        keyCommanderState.getShiftKeyCommander().pressKey();
+                        keyCommanderState.setActiveKeyState(keyCommanderState.getShiftKeyCommander());
+                        break;
+                    case TAB:
+                        keyCommanderState.getTabKeyCommander().pressKey();
+                        keyCommanderState.setActiveKeyState(keyCommanderState.getTabKeyCommander());
+                        break;
+                    default:
+                        break;
+                }
+
+                KeyCommander activeKeyState = keyCommanderState.getActiveKeyState();
+                if (activeKeyState != null) {
+                    if (activeKeyState.isKeyPressed()) {
+                        activeKeyState.pressSecondKey(keyCode, textFileCommandExecutor);
+                    }
+                }
             }
         });
 
         textContent.setOnKeyReleased(new EventHandler<KeyEvent>() {
             @Override
             public void handle(KeyEvent keyEvent) {
-
+                KeyCode keyCode = keyEvent.getCode();
+                KeyCommander activeKeyState = keyCommanderState.getActiveKeyState();
+                switch (keyCode) {
+                    case CONTROL:
+                        keyCommanderState.getCtrlKeyCommander().unPressKey();
+                        if (activeKeyState == keyCommanderState.getCtrlKeyCommander()) {
+                            keyCommanderState.setActiveKeyState(null);
+                        }
+                        break;
+                    case ALT:
+                        keyCommanderState.getAltKeyCommander().unPressKey();
+                        keyCommanderState.setActiveKeyState(keyCommanderState.getAltKeyCommander());
+                        if (activeKeyState == keyCommanderState.getAltKeyCommander()) {
+                            keyCommanderState.setActiveKeyState(null);
+                        }
+                        break;
+                    case SHIFT:
+                        keyCommanderState.getShiftKeyCommander().unPressKey();
+                        keyCommanderState.setActiveKeyState(keyCommanderState.getShiftKeyCommander());
+                        if (activeKeyState == keyCommanderState.getShiftKeyCommander()) {
+                            keyCommanderState.setActiveKeyState(null);
+                        }
+                        break;
+                    case TAB:
+                        keyCommanderState.getTabKeyCommander().unPressKey();
+                        keyCommanderState.setActiveKeyState(keyCommanderState.getTabKeyCommander());
+                        if (activeKeyState == keyCommanderState.getTabKeyCommander()) {
+                            keyCommanderState.setActiveKeyState(null);
+                        }
+                        break;
+                    default:
+                        break;
+                }
             }
         });
     }
@@ -129,7 +197,7 @@ public class MainController {
         }
         if (commandState) {
             // render buffer onto screen
-            commandState = textFileCommandExecutor.executeOperation(new LoadFileOntoScreenCommand(textContent));
+            //commandState = textFileCommandExecutor.executeOperation(new LoadFileOntoScreenCommand(textContent));
         }
         if (commandState) {
             // update window title with file name
@@ -154,7 +222,7 @@ public class MainController {
     @FXML
     protected void onSaveMenuItemClicked() {
         // Update TextBuffer content to array list of textArea
-        TextBuffer.setContent(new ArrayList<>(Arrays.asList(textContent.getText().split("\n"))));
+        //TextBuffer.setContent(new ArrayList<>(Arrays.asList(textContent.getText().split("\n"))));
         // Save current text to current file
         textFileCommandExecutor.executeOperation(new SaveCommand(TextFileHolder.getCurrentFilePath()));
     }
@@ -172,22 +240,22 @@ public class MainController {
 
     @FXML
     protected void onUndoMenuItemClicked() {
-        textContent.undo();
+        //textContent.undo();
     }
 
     @FXML
     protected void onRedoMenuItemClicked() {
-        textContent.redo();
+        //textContent.redo();
     }
 
     @FXML
     protected void onCutMenuItemClicked() {
-        textFileCommandExecutor.executeOperation(new CutCommand(textContent));
+        //textFileCommandExecutor.executeOperation(new CutCommand(textContent));
     }
 
     @FXML
     protected void onCopyMenuItemClicked() {
-        textFileCommandExecutor.executeOperation(new CopyCommand(textContent));
+        //textFileCommandExecutor.executeOperation(new CopyCommand(textContent));
     }
 
     @FXML
@@ -202,7 +270,17 @@ public class MainController {
 
     @FXML
     protected void onFindMenuItemClicked() {
-
+        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("dialogs/Find.fxml"));
+        Parent root1 = null;
+        try {
+            root1 = (Parent) fxmlLoader.load();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        Stage stage = new Stage();
+        stage.setScene(new Scene(root1));
+        stage.setTitle("Find Text");
+        stage.show();
     }
 
     @FXML

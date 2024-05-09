@@ -26,6 +26,8 @@ public class HelloApplication extends Application {
         MainController mainController = fxmlLoader.getController();
         // draw the dynamic window elements (recent files menu, etc)
 
+        // add styles to scene
+        scene.getStylesheets().add(HelloApplication.class.getResource("styles/styles.css").toExternalForm());
         stage.setTitle("Notepad");
         stage.setScene(scene);
         stage.show();
